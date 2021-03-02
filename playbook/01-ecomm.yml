@@ -1,0 +1,46 @@
+---
+- hosts: web
+  become: true
+
+  tasks:
+  - name: install git
+    yum:
+      name: git
+      state: present
+
+  - name: install wget
+    yum:
+      name: wget
+      state: present
+
+  - name: install unzip
+    yum:
+      name: git
+      state: present
+
+  - name: install vim
+    yum:
+      name: vim
+      state: present
+
+  - name: ensure apache is installed
+    yum:
+      name: httpd
+      state: present
+
+  - name: ensure apache is running
+    service:
+      name: httpd 
+      state: started
+
+  - name: git clone
+    git:
+      src: https://github.com/ravi2krishna/ecomm.git
+      dest: /src/var/www/html/
+
+  - name: ensure httpd file updated
+    copy:
+      src: /etc/httpd/conf/httpd.conf
+      dest: /home/centos/playbook/httpd.conf
+
+

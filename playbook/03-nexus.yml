@@ -1,0 +1,46 @@
+---
+- hosts: web
+  become: true
+
+  tasks:
+  - name: install git
+    yum:
+      name: git
+      state: present
+
+  - name: install wget
+    yum:
+      name: wget
+      state: present
+
+  - name: install unzip
+    yum:
+      name: git
+      state: present
+
+  - name: install vim
+    yum:
+      name: vim
+      state: present
+
+  - name: install java-1.8.0*
+    yum:
+      name: java-1.8.0*
+      state: latest
+
+  - name: download nexus
+    get_url:
+        url: https://download.sonatype.com/nexus/oss/nexus-2.14.18-01-bundle.tar.gz
+        dest: /home/centos/
+    become: no    
+
+  - name: unzip nexus
+    unarchive:
+         src: /home/centos/nexus-2.14.18-01-bundle.tar.gz
+         dest: /home/centos/
+         remote_src: yes
+    become: no
+ 
+  - name: nexus port - 8081/nexus
+    shell: "/home/centos/nexus-2.14.18-01/bin/nexus start || /home/centos/nexus-2.14.18-01/bin/nexus status "
+    become: no
